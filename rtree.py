@@ -3,38 +3,38 @@ import re
 
 import torch
 
-class Rule:
-    def __init__(self, priority, ranges):
+class Data:
+    def __init__(self, priority, coords, names):
         # each range is left inclusive and right exclusive, i.e., [left, right)
         self.priority = priority
-        self.ranges = ranges
-        self.names = ["src_ip", "dst_ip", "src_port", "dst_port", "proto"]
+        self.coords = coords
+        self.names = names
 
     def is_intersect(self, dimension, left, right):
-        return not (left >= self.ranges[dimension*2+1] or \
-            right <= self.ranges[dimension*2])
+        return not (left >= self.coords[dimension*] or \
+            right <= self.coords[dimension])
 
     def is_intersect_multi_dimension(self, ranges):
-        for i in range(5):
-            if ranges[i*2] >= self.ranges[i*2+1] or \
-                    ranges[i*2+1] <= self.ranges[i*2]:
+        for i in range(len(coords)):
+            if ranges[i*2] >= self.coords[i] or \
+                    ranges[i*2+1] <= self.coords[i]:
                 return False
         return True
 
     def is_covered_by(self, other, ranges):
-        for i in range(5):
-            if (max(self.ranges[i*2], ranges[i*2]) < \
-                    max(other.ranges[i*2], ranges[i*2]))or \
-                    (min(self.ranges[i*2+1], ranges[i*2+1]) > \
-                    min(other.ranges[i*2+1], ranges[i*2+1])):
+        for i in range(len(coords)):
+            if (max(self.coords[i], ranges[i*2]) < \
+                    max(other.coords[i], ranges[i*2]))or \
+                    (min(self.coords[i], ranges[i*2+1]) > \
+                    min(other.coords[i], ranges[i*2+1])):
                 return False
         return True
 
     def __str__(self):
         result = ""
         for i in range(len(self.names)):
-            result += "%s:[%d, %d) " % (self.names[i],
-                self.ranges[i*2], self.ranges[i*2+1])
+            result += "%s:%d" % (self.names[i],
+                self.coords[i])
         return result
 
 def load_rules_from_file(file_name):
