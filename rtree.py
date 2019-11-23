@@ -80,15 +80,14 @@ def load_rules_from_file(file_name):
     return rules
 
 class Node:
-    def __init__(self, id, ranges, rules, depth):
+    def __init__(self, id, ranges, points, depth):
         self.id = id
         self.ranges = ranges
-        self.rules = rules
+        self.points = points
         self.depth = depth
         self.children = []
         self.compute_state()
         self.action = None
-        self.pushup_rules = None
 
     def compute_state(self):
         self.state = []
@@ -111,13 +110,9 @@ class Node:
             self.id, str(self.action), self.depth, str(self.ranges))
         for child in self.children:
             result += str(child.id) + " "
-        result += "\nRules:\n"
-        for rule in self.rules:
-            result += str(rule) + "\n"
-        if self.pushup_rules != None:
-            result += "Pushup Rules:\n"
-            for rule in self.pushup_rules:
-                result += str(rule) + "\n"
+        result += "\nPoints:\n"
+        for point in self.points:
+            result += str(points) + "\n"
         return  result
 
 class Tree:
