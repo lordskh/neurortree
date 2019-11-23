@@ -4,12 +4,13 @@ import re
 import torch
 
 class Point:
-    def __init__(self, priority, coords, names, data):
+    def __init__(self, priority, coords, names, data, datanames):
         # each range is left inclusive and right exclusive, i.e., [left, right)
         self.priority = priority
         self.coords = coords
         self.names = names
         self.data = data
+        self.datanames = datanames
 
     def is_intersect(self, dimension, left, right):
         return not (left >= self.coords[dimension*] or \
@@ -34,8 +35,11 @@ class Point:
     def __str__(self):
         result = ""
         for i in range(len(self.names)):
-            result += "%s:%d" % (self.names[i],
+            result += "%s: %d, " % (self.names[i],
                 self.coords[i])
+        for i in range(len(self.datanames)):
+            result += "%s: %s," % (self.datanames[i],
+                str(self.data[i]))
         return result
 
 def load_rules_from_file(file_name):
