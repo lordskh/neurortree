@@ -3,12 +3,13 @@ import re
 
 import torch
 
-class Data:
-    def __init__(self, priority, coords, names):
+class Point:
+    def __init__(self, priority, coords, names, data):
         # each range is left inclusive and right exclusive, i.e., [left, right)
         self.priority = priority
         self.coords = coords
         self.names = names
+        self.data = data
 
     def is_intersect(self, dimension, left, right):
         return not (left >= self.coords[dimension*] or \
