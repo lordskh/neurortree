@@ -138,7 +138,7 @@ class NeuroCuts(object):
             tree = Tree(self.rules, self.leaf_threshold)
             node = tree.get_current_node()
             t = 0
-            while not tree.is_finish():
+            while not tree.is_finish(): # TODO: while there's still points to insert
                 if tree.is_leaf(node):
                     node = tree.get_next_node()
                     continue
