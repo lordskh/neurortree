@@ -112,13 +112,14 @@ class Node:
     def get_children(self):
         return self.children
 
+    # if the node encompasses a point, return true
     # TODO: implement this method
     def encompasses(point):
         pass
 
-    # TODO: implement this method
+    # inserts a point into a node
     def insert_point(point):
-        pass
+        self.points.append(point)
 
     def __str__(self):
         result = "ID:%d\tAction:%s\tDepth:%d\tRange:\t%s\nChildren: " % (
@@ -171,8 +172,8 @@ class Tree:
     def is_finish(self):
         return len(self.nodes_to_cut) == 0
 
-    # takes a point as input, inserts it into the tree
-    def insert_point(self, point):
+    # takes a point as input, returns leaf node that you would insert the point to
+    def find_insertion_node(self, point):
         cur_node = self.root
 
         while not self.is_leaf(cur_node):
@@ -180,8 +181,8 @@ class Tree:
                 if child.encompasses(point):
                     cur_node = child
                     break
-        cur_node.insert_point(point)
-    
+        return cur_node
+        
     def update_tree(self, node, children):
         if self.refinements["node_merging"]:
             children = self.refinement_node_merging(children)
